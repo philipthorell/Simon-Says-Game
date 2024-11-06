@@ -48,7 +48,7 @@ void setup() {
 
   noTone(PIEZO);
 
-  randomSeed(analogRead(A0));
+  randomSeed(analogRead(A0)); // To get randomness every start
 
 }
 
@@ -109,7 +109,7 @@ void checkPlayerInput() {
   } else if (digitalRead(GREEN_BUTTON) == LOW) {
     processGuess(GREEN, 4);
   }
-  delay(200);
+  delay(50);
 }
 
 void processGuess(Color guessed_color, int led_number) {
@@ -119,17 +119,36 @@ void processGuess(Color guessed_color, int led_number) {
   } else {
     blink_light(5);  // Wrong guess
     round_guess = 0;
-    game_round = 0;
+    game_round = 1;
     color_sequence_index = 0;
     waiting_for_response = false;
   }
   if (round_guess == game_round) {
     game_round++;
-    if (game_round == 10) {start_game = true;}
+    if (game_round == 10) {
+      delay(1000);
+      victory();
+      game_round = 1;
+      color_sequence_index = 0;
+    }
     round_guess = 0;
     waiting_for_response = false;
     delay(1200);
   }
+}
+
+void victory() {
+  int victory_sequence[] = {RED_LED, BLUE_LED, YELLOW_LED, GREEN_LED, YELLOW_LED, BLUE_LED, RED_LED};
+  int noteDuration = 200;
+
+  for (int i = 0; i < 7; i++) {
+    digitalWrite(victory_sequence[i], HIGH);
+    if (i == 6) {noteDuration = 400;}
+    tone(PIEZO, start_melody[i], noteDuration);
+    delay(noteDuration * 1.3);
+    digitalWrite(victory_sequence[i], LOW);
+  }
+  noTone(PIEZO);
 }
 
 void blink_light(int light) {
