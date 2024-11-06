@@ -125,6 +125,7 @@ void processGuess(Color guessed_color, int led_number) {
   }
   if (round_guess == game_round) {
     game_round++;
+    if (game_round == 10) {start_game = true;}
     round_guess = 0;
     waiting_for_response = false;
     delay(1200);
