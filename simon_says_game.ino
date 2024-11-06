@@ -122,6 +122,7 @@ void processGuess(Color guessed_color, int led_number) {
     game_round = 1;
     color_sequence_index = 0;
     waiting_for_response = false;
+    delay(1600);
   }
   if (round_guess == game_round) {
     game_round++;
