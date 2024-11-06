@@ -48,6 +48,8 @@ void setup() {
 
   noTone(PIEZO);
 
+  randomSeed(analogRead(A0));
+
 }
 
 void loop() {
